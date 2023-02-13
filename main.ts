@@ -5,11 +5,36 @@ class Sudoku {
     this.input = input;
     this.board = [];
   }
-
   
   public get inputs() : string {
     return this.input
   }
+
+  public get boards(): number[][][]{
+    return this.normalizeInput()
+  }
+
+  private normalizeInput() {
+    const board_data = this.input.split('\n');
+    const number_of_board = Number(board_data.shift());
+    const table: number[][][] = [];
+    for (let j = 0; j < number_of_board; j++) {
+      const row: number[][] = [];
+      for (let i = j * 9; i < j * 9 + 9; i++) {
+        const arr: number[] = [];
+        const splitted = board_data[i]?.split(' ') || '';
+        for (let k = 0; k < splitted.length; k++) {
+          const el = Number(splitted[k]);
+          arr.push(el);
+        }
+        row.push(arr);
+      }
+      table.push(row);
+    }
+    return table;
+  }
+
+  
   
 }
 
@@ -35,3 +60,4 @@ const inputs = `2
 
 const sudoku = new Sudoku(inputs);
 console.log(sudoku.inputs);
+console.log(sudoku.boards);
