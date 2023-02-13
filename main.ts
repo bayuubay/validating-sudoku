@@ -39,8 +39,6 @@ class Sudoku {
     const data = this.normalizeInput();
     data.forEach((d) => {
       this.board = d;
-      console.log(this.board);
-
       is_valids.push(this.isValid() ? 'Valid' : 'Invalid');
     });
     return is_valids;
@@ -96,5 +94,5 @@ const inputs = `2
 8 7 9 2 6 4 5 3 1`;
 
 const sudoku = new Sudoku(inputs);
-console.log(sudoku.validate());
+sudoku.validate().forEach(res => console.log(res));
 
