@@ -5,13 +5,13 @@ class Sudoku {
     this.input = input;
     this.board = [];
   }
-  
-  public get inputs() : string {
-    return this.input
+
+  public get inputs(): string {
+    return this.input;
   }
 
-  public get boards(): number[][][]{
-    return this.normalizeInput()
+  public get boards(): number[][][] {
+    return this.normalizeInput();
   }
 
   private normalizeInput() {
@@ -34,8 +34,45 @@ class Sudoku {
     return table;
   }
 
-  
-  
+  public validate() {
+    const is_valids: string[] = [];
+    const data = this.normalizeInput();
+    data.forEach((d) => {
+      this.board = d;
+      console.log(this.board);
+
+      is_valids.push(this.isValid() ? 'Valid' : 'Invalid');
+    });
+    return is_valids;
+  }
+
+  private isValid(): boolean {
+    const rows = new Set<number>();
+    const columns = new Set<number>();
+    const boxes = new Set<number>();
+
+    for (let i = 0; i < 9; i++) {
+      for (let j = 0; j < 9; j++) {
+        const num = this.board[i][j];
+
+        if (rows.has(num) || columns.has(num) || boxes.has(num)) {
+          return false;
+        }
+
+        rows.add(num);
+        columns.add(num);
+        boxes.add(num);
+
+        if (j === 8) {
+          rows.clear();
+          columns.clear();
+          boxes.clear();
+        }
+      }
+    }
+
+    return true;
+  }
 }
 
 const inputs = `2
@@ -59,5 +96,5 @@ const inputs = `2
 8 7 9 2 6 4 5 3 1`;
 
 const sudoku = new Sudoku(inputs);
-console.log(sudoku.inputs);
-console.log(sudoku.boards);
+console.log(sudoku.validate());
+
